@@ -1,3 +1,7 @@
 # EcchiExploit Shell v1.0
 
-### Screanshot
+EcchiExploit Shell v1.0 is an PHP Webshell or backdoor and build with bootstrap
+
+---
+
+## Screanshot
