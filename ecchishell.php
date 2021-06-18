@@ -638,7 +638,7 @@ function getfile($dir, $file, $label)
                   <a target="_blank" href="https://github.com/dmzhari/">
                      <i class="fab fa-github"></i>
                   </a>
-                  <a target="_blank" href="https://ecchiexploit.blogger.com/">
+                  <a target="_blank" href="https://ecchiexploit.blogspot.com/">
                      <i class="fab fa-blogger"></i>
                   </a>
                   <a target="_blank" href="https://www.youtube.com/channel/UCRq0YSk2gU6YFKsk8ZdVeGQ">
