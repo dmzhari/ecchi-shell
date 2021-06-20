@@ -611,10 +611,11 @@ function getfile($dir, $file, $label)
                foreach ($scandir as $file) {
                   $infoext = pathinfo($file);
                   $ftype = filetype("$dir/$file");
-                  if ($infoext['extension'] === 'php') {
+
+                  if ($infoext['extension'] == 'php') {
                      $i = '<i class="fab fa-php"></i>';
                      $ftype = 'php';
-                  } else if ($infoext['extension'] == 'html') {
+                  } else if ($infoext['extension'] == 'html' || $infoext['extension'] == 'htm') {
                      $i = '<i class="fab fa-html5"></i>';
                      $ftype = 'html';
                   } else if ($infoext['extension'] == 'zip' || $infoext['extension'] == 'rar') {
@@ -644,9 +645,13 @@ function getfile($dir, $file, $label)
                   } else if ($infoext['extension'] == 'mp4' || $infoext['extension'] == 'mp3') {
                      $i = ($infoext['extension'] == 'mp4') ? '<i class="fas fa-file-video"></i>' : '<i class="fas fa-file-audio"></i>';
                      $ftype = ($infoext['extension'] == 'mp4') ? 'video' : 'audio';
+                  } else if ($infoext['extension'] == 'htaccess' || $infoext['extension'] == 'ini') {
+                     $i = '<i class="fas fa-cog"></i>';
+                     $ftype = ($infoext['extension'] == 'htaccess') ? 'htaccess' : 'php conf';
                   } else {
                      $i = '<i class="fas fa-file"></i>';
                   }
+
                   if (!is_file("$dir/$file")) continue;
                   ?>
                   <tr>
@@ -725,6 +730,7 @@ function getfile($dir, $file, $label)
                         <div class="modal-body">
                            <p class="text-wrap">
                               Omest - Wildan - Arifsyn - Accil - Rapeler - Colt - Rijal - Batu - Didi - Dwi - Riy - Talia
+                              - Arianda
                            </p>
                         </div>
                         <div class="modal-footer">
