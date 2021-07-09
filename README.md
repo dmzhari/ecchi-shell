@@ -15,3 +15,6 @@ EcchiExploit Shell v1.0 is an PHP Webshell or backdoor and build with bootstrap.
 
 ## Contribute
 send email to **harigrimorum990@gmail.com** and let me know any good suggestions to improve this webshell
+
+## License
+[GNU GPL v3](LICENSE)
